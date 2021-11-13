@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
@@ -11,6 +11,7 @@ app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.otdtg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 async function run() {
     try {
         await client.connect();
@@ -77,10 +78,11 @@ async function run() {
 
         app.put('/users/admin', async (req, res) => {
             const user = req.body;
-            const filter = {email : user.email}
-            const updateDoc = {$set : {role : 'admin'}}
-            const result = await usersCollection.updateOne(filter, updateDoc);
-            res.json(result)
+            const filter = { email: user.email };
+            const updateDoc = { $set: { role: 'admin' } }
+            console.log('admin role', user)
+            const result = await usersCollection.updateOne(filter, updateDoc)
+            res.json(result);
         });
         // DELETE Method
         app.delete('/orders/:id', async (req, res) => {
