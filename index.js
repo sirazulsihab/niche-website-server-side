@@ -3,7 +3,7 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 const ObjectId = require('mongodb').ObjectId;
 
 app.use(cors());
