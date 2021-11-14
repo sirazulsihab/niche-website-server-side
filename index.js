@@ -64,17 +64,23 @@ async function run() {
             const result = await ordersCollection.insertOne(newOrder)
             res.json(result);
         });
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user)
+            console.log(user);
+            res.json(result);
+        });
         
         
         // PUT Method
-        app.put('/users', async (req, res) => {
-            const user = req.body;
-            const filter = {email : user.email};
-            const options = {upsert : true};
-            const updateDoc = {$set : user}
-            const result = await usersCollection.updateOne(filter, updateDoc, options);
-            res.json(result);
-        });
+        // app.put('/users', async (req, res) => {
+        //     const user = req.body;
+        //     const filter = {email : user.email};
+        //     const options = {upsert : true};
+        //     const updateDoc = {$set : user}
+        //     const result = await usersCollection.updateOne(filter, updateDoc, options);
+        //     res.json(result);
+        // });
 
         app.put('/users/admin', async (req, res) => {
             const user = req.body;
@@ -83,7 +89,7 @@ async function run() {
             console.log('admin role', user)
             const result = await usersCollection.updateOne(filter, updateDoc)
             res.json(result);
-        });
+        })
         // DELETE Method
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
