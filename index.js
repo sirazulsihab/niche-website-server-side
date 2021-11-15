@@ -19,6 +19,7 @@ async function run() {
         const bikesCollection = database.collection("bikes");
         const ordersCollection = database.collection("orders");
         const usersCollection = database.collection("users");
+        const reviewCollection = database.collection("review");
 
         app.get('/', (req, res) => {
             res.send('Server connected');
@@ -34,6 +35,12 @@ async function run() {
             const result = await cursor.toArray();
             res.json(result);
         });
+        app.get('/users', async (req, res) => {
+            const cursor = usersCollection.find({})
+            const result = await cursor.toArray();
+            res.json(result);
+        });
+
         app.get('/ordersByEmail', async (req, res) => {
             const email = req.query.email;
             const query = {email : email}
@@ -50,7 +57,13 @@ async function run() {
                 isAdmin = true;
             }
             res.json({admin : isAdmin})
-        })
+        });
+        app.get('/review', async (req, res) => {
+            const cursor = reviewCollection.find({})
+            const result = await cursor.toArray();
+            console.log(result);
+            res.json(result);
+        });
         
 
         // POST Method
@@ -68,6 +81,13 @@ async function run() {
             const user = req.body;
             const result = await usersCollection.insertOne(user)
             console.log(user);
+            res.json(result);
+        });
+        app.post('/users/review', async (req, res) => {
+            const review = req.body;
+            console.log(review);
+            const result = await reviewCollection.insertOne(review);
+            console.log(result)
             res.json(result);
         });
         
@@ -89,7 +109,8 @@ async function run() {
             console.log('admin role', user)
             const result = await usersCollection.updateOne(filter, updateDoc)
             res.json(result);
-        })
+        });
+
         // DELETE Method
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
