@@ -192,7 +192,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('street pottery server')
+    res.send('bike hat server started!')
 })
 
 app.listen(port, () => {
